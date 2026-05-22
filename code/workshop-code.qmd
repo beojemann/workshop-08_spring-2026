@@ -423,6 +423,9 @@ About 73%
 
 - `species_nameEschscholzia californica`: difference between *Eschsholzia californica mass* in the *well watered* treatment and *Lotus scoparius mass* in the *well watered* treatment.
 
+
+
+
 # 4. Model predictions
 
 Insert code to generate model predictions for the best model.  
@@ -432,10 +435,56 @@ Rename the `x` column and `group` column to match the original data frame (`drou
 Look at the object before plotting.
 
 
+```{r}
+#| label: model-predictions
+
+preds <- ggpredict( 
+  model4, # model object 
+  terms = c("water_treatment", "species_name") # name predictors to create a df
+) |> 
+  # renaming columns to fit original df
+  rename(water_treatment = x,
+         species_name = group)
+
+```
+
+
 
 # 5. Final figure
 
 Create a clean, publication ready figure depicting predictions for the best model and the underlying data.
+
+
+```{r}
+
+#| label: final-figure
+
+# base layer: ggplot
+ggplot(data = drought_exp_clean,
+       mapping = aes(x = water_treatment, 
+                     y = total_g,
+                     color = water_treatment)) +
+  # jitter: individual plants for each treatment in each species
+  geom_jitter(height = 0,
+              width = 0.1,
+              alpha = 0.4,
+              shape = 21) + 
+  # pointrange: model prediction with 95% CI
+  geom_pointrange(data = preds,
+                  mapping = aes(x = water_treatment,
+                                y = predicted,
+                                ymin = conf.low,
+                                ymax = conf.high)) +
+  # create different panels for each species
+  facet_wrap(~ species_name) +
+  # remove legend
+  theme(legend.position = "none") +
+  # relabels x- and y- axes
+  labs(x = "Treatment",
+       y = "Total plant mass (g)")
+
+```
+
 
 
 # 6. Writing
