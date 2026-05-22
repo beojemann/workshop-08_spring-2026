@@ -193,6 +193,9 @@ ggplot(data = drought_exp_clean,
 Make a jitterplot to visualize the differences in plant mass between water treatments.  
 
 ```{r}
+#| label: jitter-treatment
+#| fig-height: 6
+#| fig-width: 9
 
 ggplot(data = drought_exp_clean,
        mapping = aes(
@@ -232,6 +235,9 @@ Bonus: order the x-axis by decreasing mean plant mass.
 
 
 ```{r}
+#| label: jitter-species
+#| fig-height: 6
+#| fig-width: 8
 
 ggplot(data = drought_exp_clean,
        mapping = aes(
@@ -256,7 +262,9 @@ ggplot(data = drought_exp_clean,
       "Eschscholzia california" = esccal_col,
       "Grindelia camporum" = gricam_col
     )
-  )
+  ) +
+  theme(legend.position = "none") 
+  
 
 
 ```
