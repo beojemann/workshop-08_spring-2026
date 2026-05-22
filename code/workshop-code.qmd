@@ -164,6 +164,28 @@ Label the axes with units where appropriate.
 Add a title describing the relationship (e.g. as SLA increases, total mass ______). 
 
 
+```{r}
+
+#base layer: ggplot
+ggplot(data = drought_exp_clean,
+       mapping = aes(
+       x = sla, # x-axis: specific leaf area
+       y = total_g, # y-axis: total plant mass
+       )) +
+  # scatter plot
+  geom_point(
+    color = "blue",
+    size = 0.75
+  ) +
+  # title and axes titles
+  labs(
+    title = "As SLA increases, total mass increases",
+    x = expression("Specific leaf area (cm"^2~"/g)"),
+    y = "Total mass (g)"
+  )
+  
+
+```
 
 
 
@@ -171,13 +193,30 @@ Add a title describing the relationship (e.g. as SLA increases, total mass _____
 
 Make a jitterplot to visualize the differences in plant mass between water treatments.  
 
+```{r}
+
+ggplot(data = drought_exp_clean,
+       mapping = aes(
+       x = water_treatment,
+       y = total_g,
+       )) +
+  geom_jitter(
+    height = 0,
+    width = 0.1,
+  ) +
+  labs(
+    title = "Well watered individuals tend to have higher mass than drought-stressed",
+    x = expression("Treatment"),
+    y = "Total plant mass (g)"
+  ) +
+  theme(legend.position = "none")
+
+```
+
+
 Label the axes with units where appropriate.  
 
 Add a title describing the differences in (mean or median) plant mass between water treatments.
-
-
-
-
 
 
 
@@ -193,6 +232,35 @@ Bonus: order the x-axis by decreasing mean plant mass.
 
 
 
+```{r}
+
+ggplot(data = drought_exp_clean,
+       mapping = aes(
+         x = species_name,
+         y = total_g,
+         color = species_name)) +
+  geom_jitter(
+    height = 0,
+    width = 0.1,
+  ) +
+  scale_x_discrete(labels = label_wrap(10)) + 
+  labs(title = "Species differ in plant mass",
+       x = "Species",
+       y = "Total plant mass (g)") +
+  scale_color_manual(
+    values = c(
+      "Lotus scopariis" = lotsco_col,
+      "Penstemon centranthifolius" = pencen_col,
+      "Salvia leucophylla" = salleu_col,
+      "Encelia californica" = enccal_col,
+      "Stipa pulchra" = stipul_col,
+      "Eschscholzia california" = esccal_col,
+      "Grindelia camporum" = gricam_col
+    )
+  )
+
+
+```
 
 
 
